@@ -5,66 +5,81 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0d1117;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 40px 16px;
-  color: #fff;
+  padding: 48px 16px;
+  color: #e6edf3;
 }
 
 .container {
   text-align: center;
-  max-width: 500px;
+  max-width: 520px;
   width: 100%;
 }
 
 h1 {
-  font-size: 2.4rem;
-  margin-bottom: 8px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f0f6fc;
+  margin-bottom: 6px;
 }
 
 .subtitle {
-  font-size: 1rem;
-  color: #aaa;
-  margin-bottom: 32px;
+  font-size: 0.9rem;
+  color: #7d8590;
+  margin-bottom: 36px;
 }
 
+/* Main result area */
+.main-result {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 28px 20px;
+  margin-bottom: 24px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Balls */
 .balls {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
-  min-height: 72px;
-  margin-bottom: 16px;
 }
 
 .ball {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-  box-shadow: inset 0 -4px 6px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.3);
-  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   position: relative;
 }
 
 .ball::after {
   content: '';
   position: absolute;
-  top: 8px;
-  left: 14px;
-  width: 18px;
-  height: 10px;
-  background: rgba(255,255,255,0.3);
+  top: 7px;
+  left: 12px;
+  width: 16px;
+  height: 8px;
+  background: rgba(255,255,255,0.25);
   border-radius: 50%;
   transform: rotate(-30deg);
 }
@@ -74,18 +89,17 @@ h1 {
   100% { transform: scale(1); opacity: 1; }
 }
 
-.ball.range-1  { background: linear-gradient(145deg, #ffc107, #e6a800); }
-.ball.range-10 { background: linear-gradient(145deg, #2196f3, #1769aa); }
-.ball.range-20 { background: linear-gradient(145deg, #f44336, #c62828); }
-.ball.range-30 { background: linear-gradient(145deg, #9e9e9e, #616161); }
-.ball.range-40 { background: linear-gradient(145deg, #4caf50, #2e7d32); }
+.ball.c1  { background: #d4a017; }
+.ball.c10 { background: #1976d2; }
+.ball.c20 { background: #d32f2f; }
+.ball.c30 { background: #757575; }
+.ball.c40 { background: #388e3c; }
 
+/* Bonus */
 .bonus-section {
   display: none;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
 }
 
 .bonus-section.show {
@@ -93,84 +107,140 @@ h1 {
 }
 
 .bonus-label {
-  font-size: 1rem;
-  color: #aaa;
+  font-size: 1.2rem;
+  color: #484f58;
+  font-weight: 600;
 }
 
-button {
-  padding: 14px 48px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #e94560, #c23152);
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 4px 16px rgba(233, 69, 96, 0.4);
+/* Buttons */
+.btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
   margin-bottom: 40px;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+button {
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
 }
 
 button:active {
-  transform: translateY(0);
+  transform: scale(0.97);
 }
 
+#drawBtn {
+  background: #238636;
+  color: #fff;
+}
+
+#drawBtn:hover {
+  background: #2ea043;
+}
+
+button.secondary {
+  background: #21262d;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+}
+
+button.secondary:hover {
+  background: #30363d;
+}
+
+/* History */
 .history h2 {
-  font-size: 1.2rem;
-  margin-bottom: 16px;
-  color: #ccc;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #7d8590;
+  margin-bottom: 14px;
+  text-align: left;
 }
 
 .history ul {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .history li {
-  background: rgba(255,255,255,0.07);
+  background: #161b22;
+  border: 1px solid #30363d;
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
-.history li .round {
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-right: 4px;
-  min-width: 36px;
+.history .round {
+  font-size: 0.8rem;
+  color: #484f58;
+  font-weight: 600;
+  min-width: 32px;
+  text-align: left;
 }
 
 .history .mini-ball {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #fff;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
 }
 
-.history .mini-ball.range-1  { background: #ffc107; }
-.history .mini-ball.range-10 { background: #2196f3; }
-.history .mini-ball.range-20 { background: #f44336; }
-.history .mini-ball.range-30 { background: #9e9e9e; }
-.history .mini-ball.range-40 { background: #4caf50; }
+.mini-ball.c1  { background: #d4a017; }
+.mini-ball.c10 { background: #1976d2; }
+.mini-ball.c20 { background: #d32f2f; }
+.mini-ball.c30 { background: #757575; }
+.mini-ball.c40 { background: #388e3c; }
 
-.history .mini-bonus-label {
-  font-size: 0.8rem;
-  color: #aaa;
+.history .sep {
+  font-size: 0.75rem;
+  color: #484f58;
   margin: 0 2px;
+}
+
+/* 5회 추첨 결과 섹션 */
+.multi-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.multi-row {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  animation: fadeIn 0.3s ease both;
+}
+
+.multi-row .row-label {
+  font-size: 0.8rem;
+  color: #484f58;
+  font-weight: 600;
+  min-width: 20px;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
