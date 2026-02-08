@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,10 +8,17 @@
 </head>
 <body>
   <div class="container">
-    <h1>로또 추첨기</h1>
-    <p class="subtitle">행운의 번호를 뽑아보세요!</p>
+    <header>
+      <h1>로또 추첨기</h1>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="테마 변경">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </header>
+    <p class="subtitle">행운의 번호를 뽑아보세요</p>
 
     <div class="main-result" id="mainResult">
+      <div class="placeholder" id="placeholder">버튼을 눌러 추첨을 시작하세요</div>
       <div class="balls" id="balls"></div>
       <div class="bonus-section" id="bonusSection">
         <span class="bonus-label">+</span>
@@ -19,9 +26,15 @@
       </div>
     </div>
 
+    <div id="multiWrapper"></div>
+
     <div class="btn-group">
-      <button id="drawBtn" onclick="draw(1)">1회 추첨</button>
-      <button id="draw5Btn" class="secondary" onclick="draw(5)">5회 추첨</button>
+      <button class="btn btn-primary" onclick="draw(1)">
+        <span class="btn-icon">🎱</span> 1회 추첨
+      </button>
+      <button class="btn btn-secondary" onclick="draw(5)">
+        <span class="btn-icon">🎯</span> 5회 추첨
+      </button>
     </div>
 
     <div class="history" id="history">

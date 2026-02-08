@@ -1,5 +1,19 @@
 let round = 0;
 
+// ── Theme ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+// ── Lotto ──
 function colorClass(n) {
   if (n <= 10) return 'c1';
   if (n <= 20) return 'c10';
@@ -15,9 +29,7 @@ function generate() {
     if (!nums.includes(n)) nums.push(n);
   }
   let bonus;
-  do {
-    bonus = Math.floor(Math.random() * 45) + 1;
-  } while (nums.includes(bonus));
+  do { bonus = Math.floor(Math.random() * 45) + 1; } while (nums.includes(bonus));
   nums.sort((a, b) => a - b);
   return { nums, bonus };
 }
@@ -33,12 +45,11 @@ function drawSingle() {
   const bonusSection = document.getElementById('bonusSection');
   const bonusBall = document.getElementById('bonusBall');
   const mainResult = document.getElementById('mainResult');
+  const placeholder = document.getElementById('placeholder');
 
-  // 기존 multi-results 제거
-  const prev = document.querySelector('.multi-results');
-  if (prev) prev.remove();
-
+  clearMulti();
   mainResult.style.display = '';
+  placeholder.style.display = 'none';
   ballsEl.innerHTML = '';
   bonusSection.classList.remove('show');
 
@@ -48,36 +59,33 @@ function drawSingle() {
       ball.className = `ball ${colorClass(num)}`;
       ball.textContent = num;
       ballsEl.appendChild(ball);
-    }, i * 120);
+    }, i * 130);
   });
 
   setTimeout(() => {
     bonusBall.className = `ball bonus ${colorClass(bonus)}`;
     bonusBall.textContent = bonus;
     bonusSection.classList.add('show');
-  }, 6 * 120 + 150);
+  }, 6 * 130 + 180);
 
-  setTimeout(() => addHistory(nums, bonus), 6 * 120 + 200);
+  setTimeout(() => addHistory(nums, bonus), 6 * 130 + 250);
 }
 
 function drawMulti(count) {
   const mainResult = document.getElementById('mainResult');
   mainResult.style.display = 'none';
-
-  let prev = document.querySelector('.multi-results');
-  if (prev) prev.remove();
+  clearMulti();
 
   const wrapper = document.createElement('div');
   wrapper.className = 'multi-results';
-  mainResult.parentNode.insertBefore(wrapper, mainResult.nextSibling);
+  document.getElementById('multiWrapper').appendChild(wrapper);
 
   for (let i = 0; i < count; i++) {
     const { nums, bonus } = generate();
-
     setTimeout(() => {
       const row = document.createElement('div');
       row.className = 'multi-row';
-      row.style.animationDelay = `${i * 0.08}s`;
+      row.style.animationDelay = `${i * 0.06}s`;
 
       let html = `<span class="row-label">${String.fromCharCode(65 + i)}</span>`;
       nums.forEach(n => {
@@ -87,10 +95,14 @@ function drawMulti(count) {
       html += `<span class="mini-ball ${colorClass(bonus)}">${bonus}</span>`;
       row.innerHTML = html;
       wrapper.appendChild(row);
-
       addHistory(nums, bonus);
-    }, i * 150);
+    }, i * 160);
   }
+}
+
+function clearMulti() {
+  const prev = document.querySelector('.multi-results');
+  if (prev) prev.remove();
 }
 
 function addHistory(nums, bonus) {
