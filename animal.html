@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>동물상 테스트</title>
+  <link href='/style.css' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>동물상 테스트</h1>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="테마 변경">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </header>
+    <p class="subtitle">AI가 당신의 동물상을 알려드려요</p>
+
+    <nav class="nav-bar">
+      <a href="/index.html" class="nav-link">🎱 로또</a>
+      <a href="/dinner.html" class="nav-link">🍽️ 메뉴</a>
+      <a href="/animal.html" class="nav-link active">🐾 동물상</a>
+      <a href="/contact.html" class="nav-link">📩 문의</a>
+    </nav>
+
+    <div class="animal-result-box" id="resultBox">
+      <div class="placeholder" id="placeholder">카메라를 켜고 동물상을 확인하세요</div>
+
+      <div class="webcam-wrapper hidden" id="webcamWrapper">
+        <div id="webcam-container"></div>
+      </div>
+
+      <div class="animal-result hidden" id="animalResult">
+        <span class="animal-emoji" id="animalEmoji"></span>
+        <span class="animal-label" id="animalLabel"></span>
+        <div class="animal-bars" id="animalBars"></div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" id="startBtn" onclick="init()">
+        <span class="btn-icon">📷</span> 카메라 시작
+      </button>
+      <button class="btn btn-secondary hidden" id="stopBtn" onclick="stop()">
+        <span class="btn-icon">⏹️</span> 카메라 종료
+      </button>
+    </div>
+
+    <div class="disqus-section">
+      <h2 class="disqus-title">댓글</h2>
+      <div id="disqus_thread"></div>
+    </div>
+  </div>
+
+  <script>
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+
+    // Teachable Machine
+    const URL = "https://teachablemachine.withgoogle.com/models/Q_3YX-pyr/";
+    let model, webcam, maxPredictions;
+    let running = false;
+
+    const animalMap = {
+      '강아지': { emoji: '🐶', desc: '강아지상' },
+      '고양이': { emoji: '🐱', desc: '고양이상' },
+    };
+
+    async function init() {
+      const startBtn = document.getElementById('startBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      startBtn.disabled = true;
+      startBtn.innerHTML = '<span class="btn-icon">⏳</span> 로딩 중...';
+
+      try {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        const flip = true;
+        webcam = new tmImage.Webcam(280, 280, flip);
+        await webcam.setup();
+        await webcam.play();
+        running = true;
+
+        document.getElementById('placeholder').classList.add('hidden');
+        const webcamWrapper = document.getElementById('webcamWrapper');
+        webcamWrapper.classList.remove('hidden');
+        document.getElementById('webcam-container').appendChild(webcam.canvas);
+        document.getElementById('animalResult').classList.remove('hidden');
+
+        // Build bar UI
+        const barsEl = document.getElementById('animalBars');
+        barsEl.innerHTML = '';
+        for (let i = 0; i < maxPredictions; i++) {
+          const row = document.createElement('div');
+          row.className = 'bar-row';
+          row.innerHTML = `
+            <span class="bar-label" id="barLabel${i}"></span>
+            <div class="bar-track"><div class="bar-fill" id="barFill${i}"></div></div>
+            <span class="bar-pct" id="barPct${i}"></span>
+          `;
+          barsEl.appendChild(row);
+        }
+
+        startBtn.classList.add('hidden');
+        stopBtn.classList.remove('hidden');
+        window.requestAnimationFrame(loop);
+      } catch (e) {
+        alert('카메라 접근에 실패했습니다. 카메라 권한을 확인해주세요.');
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<span class="btn-icon">📷</span> 카메라 시작';
+      }
+    }
+
+    async function loop() {
+      if (!running) return;
+      webcam.update();
+      await predict();
+      window.requestAnimationFrame(loop);
+    }
+
+    async function predict() {
+      const prediction = await model.predict(webcam.canvas);
+
+      let best = prediction[0];
+      for (const p of prediction) {
+        if (p.probability > best.probability) best = p;
+      }
+
+      const mapped = animalMap[best.className] || { emoji: '🐾', desc: best.className };
+      document.getElementById('animalEmoji').textContent = mapped.emoji;
+      document.getElementById('animalLabel').textContent = mapped.desc;
+
+      for (let i = 0; i < maxPredictions; i++) {
+        const p = prediction[i];
+        const pct = Math.round(p.probability * 100);
+        const m = animalMap[p.className] || { emoji: '🐾' };
+        document.getElementById(`barLabel${i}`).textContent = `${m.emoji} ${p.className}`;
+        document.getElementById(`barFill${i}`).style.width = pct + '%';
+        document.getElementById(`barPct${i}`).textContent = pct + '%';
+      }
+    }
+
+    function stop() {
+      running = false;
+      if (webcam) {
+        webcam.stop();
+      }
+      document.getElementById('webcam-container').innerHTML = '';
+      document.getElementById('webcamWrapper').classList.add('hidden');
+      document.getElementById('animalResult').classList.add('hidden');
+      document.getElementById('placeholder').classList.remove('hidden');
+
+      const startBtn = document.getElementById('startBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      startBtn.classList.remove('hidden');
+      startBtn.disabled = false;
+      startBtn.innerHTML = '<span class="btn-icon">📷</span> 카메라 시작';
+      stopBtn.classList.add('hidden');
+    }
+
+    // Disqus
+    var disqus_config = function () {
+      this.page.url = location.href;
+      this.page.identifier = 'animal';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://junhae.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</body>
+</html>
