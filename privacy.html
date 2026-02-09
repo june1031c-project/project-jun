@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="개인정보처리방침 - 본 사이트의 개인정보 수집, 이용, 보호에 관한 정책을 안내합니다." />
+  <title>개인정보처리방침</title>
+  <link href='/style.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>개인정보처리방침</h1>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="테마 변경">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </header>
+    <p class="subtitle">개인정보 보호를 위한 안내</p>
+
+    <nav class="nav-bar">
+      <a href="/index.html" class="nav-link">🎱 로또</a>
+      <a href="/dinner.html" class="nav-link">🍽️ 메뉴</a>
+      <a href="/animal.html" class="nav-link">🐾 동물상</a>
+      <a href="/contact.html" class="nav-link">📩 문의</a>
+    </nav>
+
+    <div class="info-content">
+      <h2>1. 개인정보의 수집 및 이용 목적</h2>
+      <p>본 사이트(이하 "사이트")는 다음의 목적을 위해 개인정보를 수집 및 이용합니다.</p>
+      <ul>
+        <li>제휴 및 협업 문의 처리 (이름, 이메일, 문의 내용)</li>
+        <li>사이트 이용 통계 분석 및 서비스 개선</li>
+        <li>광고 서비스 제공 (Google AdSense)</li>
+      </ul>
+
+      <h2>2. 수집하는 개인정보 항목</h2>
+      <p>사이트는 다음과 같은 개인정보를 수집합니다.</p>
+      <ul>
+        <li>문의 양식: 이름(또는 회사명), 이메일 주소, 문의 내용</li>
+        <li>자동 수집 항목: 쿠키, 방문 기록, 접속 IP, 브라우저 유형</li>
+      </ul>
+
+      <h2>3. 개인정보의 보유 및 이용 기간</h2>
+      <p>수집된 개인정보는 수집 목적이 달성된 후 즉시 파기합니다. 단, 관련 법령에 의해 보존할 필요가 있는 경우 해당 기간 동안 보관합니다.</p>
+
+      <h2>4. 개인정보의 제3자 제공</h2>
+      <p>사이트는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 다음의 경우에는 예외로 합니다.</p>
+      <ul>
+        <li>이용자가 사전에 동의한 경우</li>
+        <li>법령의 규정에 의거하거나 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우</li>
+      </ul>
+
+      <h2>5. 쿠키(Cookie) 사용</h2>
+      <p>사이트는 이용자에게 적절한 서비스를 제공하기 위해 쿠키를 사용합니다.</p>
+      <ul>
+        <li>테마 설정 저장 (다크/라이트 모드)</li>
+        <li>Google AdSense 광고 제공을 위한 쿠키</li>
+        <li>Disqus 댓글 서비스 이용을 위한 쿠키</li>
+      </ul>
+      <p>이용자는 브라우저 설정에서 쿠키 허용 여부를 선택할 수 있습니다. 다만, 쿠키를 거부할 경우 일부 서비스 이용이 제한될 수 있습니다.</p>
+
+      <h2>6. 광고 서비스</h2>
+      <p>사이트는 Google AdSense를 통해 광고를 게재하고 있습니다. Google AdSense는 사용자의 관심사에 기반한 광고를 제공하기 위해 쿠키를 사용할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/technologies/ads" style="color:var(--accent)">Google 광고 정책</a>을 참고하세요.</p>
+
+      <h2>7. 개인정보 보호 책임자</h2>
+      <p>개인정보 처리에 관한 문의사항이 있으시면 <a href="/contact.html" style="color:var(--accent)">문의하기</a> 페이지를 통해 연락해 주세요.</p>
+
+      <h2>8. 개인정보처리방침 변경</h2>
+      <p>본 개인정보처리방침은 2025년 1월 1일부터 적용되며, 법령 및 방침에 따른 변경 내용의 추가, 삭제 및 정정이 있는 경우에는 변경사항의 시행 7일 전부터 사이트를 통해 공지하겠습니다.</p>
+      <p>시행일자: 2025년 1월 1일</p>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="/about.html" class="footer-link">사이트 소개</a>
+        <a href="/privacy.html" class="footer-link">개인정보처리방침</a>
+        <a href="/contact.html" class="footer-link">문의하기</a>
+      </div>
+      <p class="footer-copy">&copy; 2025 junhae. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+</body>
+</html>
