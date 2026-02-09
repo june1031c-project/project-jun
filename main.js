@@ -1,5 +1,3 @@
-let round = 0;
-
 // ── Theme ──
 function toggleTheme() {
   const html = document.documentElement;
@@ -68,7 +66,6 @@ function drawSingle() {
     bonusSection.classList.add('show');
   }, 6 * 130 + 180);
 
-  setTimeout(() => addHistory(nums, bonus), 6 * 130 + 250);
 }
 
 function drawMulti(count) {
@@ -95,7 +92,6 @@ function drawMulti(count) {
       html += `<span class="mini-ball ${colorClass(bonus)}">${bonus}</span>`;
       row.innerHTML = html;
       wrapper.appendChild(row);
-      addHistory(nums, bonus);
     }, i * 160);
   }
 }
@@ -103,20 +99,4 @@ function drawMulti(count) {
 function clearMulti() {
   const prev = document.querySelector('.multi-results');
   if (prev) prev.remove();
-}
-
-function addHistory(nums, bonus) {
-  round++;
-  const list = document.getElementById('historyList');
-  const li = document.createElement('li');
-
-  let html = `<span class="round">#${round}</span>`;
-  nums.forEach(n => {
-    html += `<span class="mini-ball ${colorClass(n)}">${n}</span>`;
-  });
-  html += `<span class="sep">+</span>`;
-  html += `<span class="mini-ball ${colorClass(bonus)}">${bonus}</span>`;
-
-  li.innerHTML = html;
-  list.insertBefore(li, list.firstChild);
 }

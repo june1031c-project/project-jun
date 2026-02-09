@@ -274,50 +274,6 @@ h1 {
   100% { opacity: 1; transform: translateX(0); }
 }
 
-/* ── History ── */
-.history h2 {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text-sub);
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.history ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.history li {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-  box-shadow: var(--shadow);
-  animation: fadeUp 0.3s ease both;
-  transition: background var(--transition), border var(--transition);
-}
-
-@keyframes fadeUp {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.history .round {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 700;
-  min-width: 32px;
-  text-align: left;
-}
-
 .mini-ball {
   width: 30px;
   height: 30px;
@@ -345,4 +301,44 @@ h1 {
   color: var(--text-muted);
   font-weight: 600;
   margin: 0 2px;
+}
+
+/* ── Mobile Responsive ── */
+@media (max-width: 480px) {
+  .ball {
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+  }
+
+  .ball::after {
+    top: 4px;
+    left: 8px;
+    width: 11px;
+    height: 6px;
+  }
+
+  .balls {
+    gap: 6px;
+  }
+
+  .main-result {
+    padding: 20px 14px;
+    gap: 8px;
+  }
+
+  .bonus-section {
+    gap: 6px;
+  }
+
+  .mini-ball {
+    width: 26px;
+    height: 26px;
+    font-size: 0.68rem;
+  }
+
+  .multi-row {
+    padding: 10px 10px;
+    gap: 4px;
+  }
 }
