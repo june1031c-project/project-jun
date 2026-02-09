@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>제휴 문의</title>
+  <link href='/style.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>제휴 문의</h1>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="테마 변경">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </header>
+    <p class="subtitle">제휴 및 협업 문의를 남겨주세요</p>
+
+    <nav class="nav-bar">
+      <a href="/index.html" class="nav-link">🎱 로또</a>
+      <a href="/dinner.html" class="nav-link">🍽️ 메뉴</a>
+      <a href="/contact.html" class="nav-link active">📩 문의</a>
+    </nav>
+
+    <form class="contact-form" id="contactForm" action="https://formspree.io/f/mreabeoz" method="POST">
+      <label class="form-label" for="name">이름 / 회사명</label>
+      <input class="form-input" type="text" id="name" name="name" required placeholder="홍길동 / 주식회사 예시">
+
+      <label class="form-label" for="email">이메일</label>
+      <input class="form-input" type="email" id="email" name="email" required placeholder="example@email.com">
+
+      <label class="form-label" for="message">문의 내용</label>
+      <textarea class="form-input form-textarea" id="message" name="message" required placeholder="제휴 내용을 간단히 적어주세요"></textarea>
+
+      <button class="btn btn-primary form-submit" type="submit">
+        <span class="btn-icon">📩</span> 문의 보내기
+      </button>
+    </form>
+
+    <div class="form-success hidden" id="formSuccess">
+      <span class="success-icon">✅</span>
+      <p class="success-text">문의가 성공적으로 전송되었습니다!</p>
+      <button class="btn btn-secondary" onclick="resetForm()">새 문의 작성</button>
+    </div>
+  </div>
+
+  <script>
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+
+    // Form submit
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.disabled = true;
+      btn.textContent = '전송 중...';
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+      } else {
+        alert('전송에 실패했습니다. 다시 시도해주세요.');
+        btn.disabled = false;
+        btn.innerHTML = '<span class="btn-icon">📩</span> 문의 보내기';
+      }
+    });
+
+    function resetForm() {
+      form.reset();
+      form.classList.remove('hidden');
+      success.classList.add('hidden');
+      const btn = form.querySelector('.form-submit');
+      btn.disabled = false;
+      btn.innerHTML = '<span class="btn-icon">📩</span> 문의 보내기';
+    }
+  </script>
+</body>
+</html>
