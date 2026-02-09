@@ -514,6 +514,22 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* ── Disqus Comments ── */
+.disqus-section {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.disqus-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 /* ── Mobile Responsive ── */
 @media (max-width: 480px) {
   .ball {
