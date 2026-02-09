@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>저녁메뉴 추천</title>
+  <link href='/style.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>저녁메뉴 추천</h1>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="테마 변경">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </header>
+    <p class="subtitle">오늘 저녁 뭐 먹지? 골라드릴게요</p>
+
+    <nav class="nav-bar">
+      <a href="/index.html" class="nav-link">🎱 로또 추첨기</a>
+      <a href="/dinner.html" class="nav-link active">🍽️ 저녁메뉴</a>
+    </nav>
+
+    <div class="menu-result" id="menuResult">
+      <div class="placeholder" id="placeholder">버튼을 눌러 메뉴를 추천받으세요</div>
+      <div class="menu-card hidden" id="menuCard">
+        <span class="menu-emoji" id="menuEmoji"></span>
+        <div class="menu-info">
+          <span class="menu-category" id="menuCategory"></span>
+          <span class="menu-name" id="menuName"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="recommend()">
+        <span class="btn-icon">🎲</span> 메뉴 추천
+      </button>
+      <button class="btn btn-secondary" onclick="recommend3()">
+        <span class="btn-icon">🍽️</span> 3개 추천
+      </button>
+    </div>
+
+    <div id="multiMenu"></div>
+  </div>
+
+  <script defer type="text/javascript" src="/dinner.js"></script>
+</body>
+</html>
