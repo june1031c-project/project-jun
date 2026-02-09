@@ -1,102 +1,76 @@
-// ── Theme ──
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const generateBtn = document.getElementById('generateBtn');
+    const resultDiv = document.getElementById('result');
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+    
+    // 테마 설정 불러오기
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
 
-(function initTheme() {
-  const saved = localStorage.getItem('theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-})();
+    // 테마 변경 이벤트
+    toggleSwitch.addEventListener('change', function(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
 
-// ── Lotto ──
-function colorClass(n) {
-  if (n <= 10) return 'c1';
-  if (n <= 20) return 'c10';
-  if (n <= 30) return 'c20';
-  if (n <= 40) return 'c30';
-  return 'c40';
-}
+    // 번호 생성 이벤트
+    generateBtn.addEventListener('click', generateLottoNumbers);
 
-function generate() {
-  const nums = [];
-  while (nums.length < 6) {
-    const n = Math.floor(Math.random() * 45) + 1;
-    if (!nums.includes(n)) nums.push(n);
-  }
-  let bonus;
-  do { bonus = Math.floor(Math.random() * 45) + 1; } while (nums.includes(bonus));
-  nums.sort((a, b) => a - b);
-  return { nums, bonus };
-}
+    function generateLottoNumbers() {
+        // 버튼 로딩 효과
+        const originalBtnText = generateBtn.innerHTML;
+        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 생성 중...';
+        generateBtn.disabled = true;
 
-function draw(count) {
-  if (count === 1) drawSingle();
-  else drawMulti(count);
-}
+        // 약간의 딜레이 후 결과 표시 (긴장감 조성)
+        setTimeout(() => {
+            const numbers = [];
+            while (numbers.length < 6) {
+                const num = Math.floor(Math.random() * 45) + 1;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            
+            // 오름차순 정렬
+            numbers.sort((a, b) => a - b);
+            
+            displayNumbers(numbers);
+            
+            generateBtn.innerHTML = originalBtnText;
+            generateBtn.disabled = false;
+        }, 500);
+    }
 
-function drawSingle() {
-  const { nums, bonus } = generate();
-  const ballsEl = document.getElementById('balls');
-  const bonusSection = document.getElementById('bonusSection');
-  const bonusBall = document.getElementById('bonusBall');
-  const mainResult = document.getElementById('mainResult');
-  const placeholder = document.getElementById('placeholder');
-
-  clearMulti();
-  mainResult.style.display = '';
-  placeholder.style.display = 'none';
-  ballsEl.innerHTML = '';
-  bonusSection.classList.remove('show');
-
-  nums.forEach((num, i) => {
-    setTimeout(() => {
-      const ball = document.createElement('div');
-      ball.className = `ball ${colorClass(num)}`;
-      ball.textContent = num;
-      ballsEl.appendChild(ball);
-    }, i * 130);
-  });
-
-  setTimeout(() => {
-    bonusBall.className = `ball bonus ${colorClass(bonus)}`;
-    bonusBall.textContent = bonus;
-    bonusSection.classList.add('show');
-  }, 6 * 130 + 180);
-
-}
-
-function drawMulti(count) {
-  const mainResult = document.getElementById('mainResult');
-  mainResult.style.display = 'none';
-  clearMulti();
-
-  const wrapper = document.createElement('div');
-  wrapper.className = 'multi-results';
-  document.getElementById('multiWrapper').appendChild(wrapper);
-
-  for (let i = 0; i < count; i++) {
-    const { nums, bonus } = generate();
-    setTimeout(() => {
-      const row = document.createElement('div');
-      row.className = 'multi-row';
-      row.style.animationDelay = `${i * 0.06}s`;
-
-      let html = `<span class="row-label">${String.fromCharCode(65 + i)}</span>`;
-      nums.forEach(n => {
-        html += `<span class="mini-ball ${colorClass(n)}">${n}</span>`;
-      });
-      html += `<span class="sep">+</span>`;
-      html += `<span class="mini-ball ${colorClass(bonus)}">${bonus}</span>`;
-      row.innerHTML = html;
-      wrapper.appendChild(row);
-    }, i * 160);
-  }
-}
-
-function clearMulti() {
-  const prev = document.querySelector('.multi-results');
-  if (prev) prev.remove();
-}
+    function displayNumbers(numbers) {
+        resultDiv.innerHTML = ''; // 기존 내용 지우기
+        
+        numbers.forEach((num, index) => {
+            const ball = document.createElement('div');
+            ball.classList.add('ball');
+            ball.textContent = num;
+            
+            // 번호별 색상 클래스 부여 (동행복권 기준)
+            if (num <= 10) ball.classList.add('yellow');
+            else if (num <= 20) ball.classList.add('blue');
+            else if (num <= 30) ball.classList.add('red');
+            else if (num <= 40) ball.classList.add('gray');
+            else ball.classList.add('green');
+            
+            // 순차적 애니메이션을 위한 딜레이 설정
+            ball.style.animationDelay = `${index * 0.1}s`;
+            
+            resultDiv.appendChild(ball);
+        });
+    }
+});

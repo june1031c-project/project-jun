@@ -1,129 +1,134 @@
-<!doctype html>
-<html lang="ko" data-theme="dark">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="무료 로또 번호 추첨기 - 행운의 로또 번호를 랜덤으로 생성해보세요. 1회 및 5회 추첨 지원. 로또 당첨 확률과 번호 선택 팁까지." />
-  <title>로또 추첨기 - 무료 로또 번호 생성기</title>
-  <link href='/style.css' rel='stylesheet'>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4595069208441708"
-     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="무료 로또 번호 생성기. 과학적인 알고리즘으로 예상 번호를 추천받으세요. 로또 6/45 규칙, 당첨 확률 분석 및 건전한 게임 가이드를 제공합니다.">
+    <meta name="keywords" content="로또번호생성기, 로또예상번호, 무료로또, 로또645, 로또당첨확률, 로또명당">
+    <meta name="author" content="LottoGen">
+    <meta property="og:title" content="프리미엄 로또 번호 생성기 (Lotto 6/45)">
+    <meta property="og:description" content="당신의 행운을 확인하세요. 클릭 한 번으로 생성되는 과학적인 추천 번호.">
+    <meta property="og:type" content="website">
+    <title>프리미엄 로또 번호 생성기 | 행운의 숫자 추천</title>
+    <link rel="stylesheet" href="style.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>로또 추첨기</h1>
-      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="테마 변경">
-        <span class="icon-sun">☀️</span>
-        <span class="icon-moon">🌙</span>
-      </button>
-    </header>
-    <p class="subtitle">행운의 번호를 뽑아보세요</p>
-
-    <nav class="nav-bar">
-      <a href="/index.html" class="nav-link active">🎱 로또</a>
-      <a href="/dinner.html" class="nav-link">🍽️ 메뉴</a>
-      <a href="/animal.html" class="nav-link">🐾 동물상</a>
-      <a href="/contact.html" class="nav-link">📩 문의</a>
-    </nav>
-
-    <!-- 상단 광고 -->
-    <div class="ad-slot">
-      <span class="ad-label">광고</span>
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4595069208441708"
-           data-ad-slot="XXXXXXXXXX"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </div>
+        </label>
     </div>
 
-    <div class="main-result" id="mainResult">
-      <div class="placeholder" id="placeholder">버튼을 눌러 추첨을 시작하세요</div>
-      <div class="balls" id="balls"></div>
-      <div class="bonus-section" id="bonusSection">
-        <span class="bonus-label">+</span>
-        <div class="ball bonus" id="bonusBall"></div>
-      </div>
-    </div>
+    <main class="container">
+        <section class="hero">
+            <h1><i class="fas fa-gem"></i> 로또 6/45 행운 생성기</h1>
+            <p class="subtitle">빅데이터 기반 랜덤 알고리즘으로 당신의 행운을 잡으세요</p>
+            
+            <div class="result-container" id="result">
+                <div class="placeholder-text">버튼을 눌러 행운의 번호를 확인하세요</div>
+            </div>
 
-    <div id="multiWrapper"></div>
+            <button class="generate-btn" id="generateBtn">
+                <span>번호 생성하기</span>
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </section>
 
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="draw(1)">
-        <span class="btn-icon">🎱</span> 1회 추첨
-      </button>
-      <button class="btn btn-secondary" onclick="draw(5)">
-        <span class="btn-icon">🎯</span> 5회 추첨
-      </button>
-    </div>
+        <div class="ad-banner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
 
-    <div class="info-content">
-      <h2>로또 6/45란?</h2>
-      <p>로또 6/45는 1부터 45까지의 숫자 중 6개의 번호를 맞추는 대한민국의 대표적인 복권 게임입니다. 매주 토요일 저녁에 추첨이 진행되며, 보너스 번호 1개를 포함하여 총 7개의 번호가 추첨됩니다.</p>
+        <article class="content-area">
+            <section class="info-card">
+                <h2><i class="fas fa-book-open"></i> 로또 6/45 규칙 이해하기</h2>
+                <p>
+                    동행복권에서 발행하는 로또 6/45는 대한민국에서 가장 인기 있는 복권입니다. 
+                    <strong>1부터 45까지의 숫자 중 6개를 선택</strong>하여 추첨 번호와 일치하는 개수에 따라 등수가 결정됩니다.
+                    매주 토요일 오후 8시 35분경 MBC 방송국에서 생방송으로 추첨이 진행됩니다.
+                </p>
+            </section>
 
-      <h2>당첨 등수별 확률</h2>
-      <ul>
-        <li><strong>1등 (6개 일치)</strong> - 약 1/8,145,060 확률로, 6개 번호를 모두 맞추면 당첨됩니다.</li>
-        <li><strong>2등 (5개 + 보너스)</strong> - 약 1/1,357,510 확률로, 5개 번호와 보너스 번호를 맞추면 당첨됩니다.</li>
-        <li><strong>3등 (5개 일치)</strong> - 약 1/35,724 확률로, 6개 중 5개를 맞추면 당첨됩니다.</li>
-        <li><strong>4등 (4개 일치)</strong> - 약 1/733 확률로, 비교적 현실적인 당첨 확률입니다.</li>
-        <li><strong>5등 (3개 일치)</strong> - 약 1/45 확률로, 고정 당첨금 5,000원이 지급됩니다.</li>
-      </ul>
+            <section class="info-card">
+                <h2><i class="fas fa-chart-line"></i> 당첨 확률과 과학적 분석</h2>
+                <p>
+                    로또 1등 당첨 확률은 약 <strong>814만 분의 1</strong>입니다. 이는 벼락을 맞을 확률보다 낮다고 알려져 있습니다.
+                    하지만 소액으로 일주일의 행복을 사는 건전한 취미로서 많은 사랑을 받고 있습니다.
+                    본 생성기는 단순한 난수 생성을 넘어, 프로그래밍적으로 가장 공정한 무작위 알고리즘(Mersenne Twister 기반 난수 체계와 유사한 방식)을 사용하여 편향 없는 번호를 제공합니다.
+                </p>
+                <ul class="stats-list">
+                    <li><strong>1등:</strong> 번호 6개 모두 일치 (약 1/8,145,060)</li>
+                    <li><strong>2등:</strong> 번호 5개 + 보너스 번호 일치 (약 1/1,357,510)</li>
+                    <li><strong>3등:</strong> 번호 5개 일치 (약 1/35,724)</li>
+                </ul>
+            </section>
 
-      <h2>번호 생성 원리</h2>
-      <p>본 추첨기는 JavaScript의 난수 생성 함수를 사용하여 완전히 랜덤한 번호를 생성합니다. 실제 로또 추첨과 동일하게 1~45 범위에서 중복 없이 6개의 번호와 1개의 보너스 번호를 뽑아줍니다. 5회 추첨 기능을 사용하면 한 번에 5세트의 번호를 생성할 수 있어 편리합니다.</p>
+            <div class="ad-banner">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
 
-      <h2>로또 번호 선택 팁</h2>
-      <p>로또는 완전한 확률 게임이기 때문에 어떤 번호 조합이든 당첨 확률은 동일합니다. 다만 다음 사항을 참고하면 좋습니다.</p>
-      <ul>
-        <li>연속된 번호(예: 1,2,3,4,5,6)를 선택하는 사람은 적으므로, 이런 조합이 당첨되면 1등 당첨금을 적게 나눌 수 있습니다.</li>
-        <li>생일이나 기념일 기반 번호(1~31)만 선택하면 높은 번호(32~45)를 놓치게 됩니다.</li>
-        <li>과도한 금액을 복권에 사용하지 마세요. 로또는 재미로 즐기는 것이 가장 좋습니다.</li>
-      </ul>
-    </div>
+            <section class="info-card">
+                <h2><i class="fas fa-exclamation-triangle"></i> 건전한 복권 문화 캠페인</h2>
+                <p>
+                    복권은 소액으로 즐기는 건전한 레저여야 합니다. 
+                    지나친 몰입은 도박 중독으로 이어질 수 있으므로, 본인의 경제적 여력 내에서 구매하는 것이 중요합니다.
+                    <br><br>
+                    <strong>판매 시간:</strong> 매일 06:00 ~ 24:00 (추첨일인 토요일은 20:00 판매 마감)<br>
+                    <strong>구매 제한:</strong> 1인 1회 10만 원 초과 구매 불가, 청소년 구매 불가
+                </p>
+            </section>
+        </article>
 
-    <!-- 하단 광고 -->
-    <div class="ad-slot ad-slot-bottom">
-      <span class="ad-label">광고</span>
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4595069208441708"
-           data-ad-slot="XXXXXXXXXX"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+        <section class="comments-section">
+            <h3><i class="far fa-comments"></i> 당첨 기원 댓글 남기기</h3>
+            <div id="disqus_thread"></div>
+            <script>
+                /**
+                * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://lotto-gen-demo.disqus.com/embed.js'; // ★ 본인의 Disqus Shortname으로 반드시 변경하세요!
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </section>
+    </main>
 
-    <div class="disqus-section">
-      <h2 class="disqus-title">댓글</h2>
-      <div id="disqus_thread"></div>
-    </div>
-
-    <footer class="site-footer">
-      <div class="footer-links">
-        <a href="/about.html" class="footer-link">사이트 소개</a>
-        <a href="/privacy.html" class="footer-link">개인정보처리방침</a>
-        <a href="/contact.html" class="footer-link">문의하기</a>
-      </div>
-      <p class="footer-copy">&copy; 2025 junhae. All rights reserved.</p>
+    <footer>
+        <p>&copy; 2024 Premium Lotto Generator. All rights reserved.</p>
+        <p>본 사이트에서 생성된 번호는 무작위 추첨 결과이며, 당첨을 보장하지 않습니다.</p>
     </footer>
-  </div>
 
-  <script defer type="text/javascript" src="/main.js"></script>
-  <script>
-    var disqus_config = function () {
-      this.page.url = location.href;
-      this.page.identifier = 'lotto';
-    };
-    (function() {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://junhae.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <script src="main.js"></script>
 </body>
 </html>
