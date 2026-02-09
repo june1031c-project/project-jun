@@ -35,10 +35,11 @@
 
 body {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    font-size: 16px;
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: var(--transition);
-    line-height: 1.6;
+    line-height: 1.75;
 }
 
 .container {
@@ -58,18 +59,19 @@ body {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     margin-bottom: 0.5rem;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-weight: 800;
 }
 
 .subtitle {
     color: var(--text-muted);
     margin-bottom: 2rem;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
 }
 
 /* 결과 창 스타일 */
@@ -91,7 +93,7 @@ h1 {
 
 .placeholder-text {
     color: var(--text-muted);
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     animation: pulse 2s infinite;
 }
 
@@ -123,7 +125,7 @@ h1 {
     color: white;
     border: none;
     padding: 1rem 3rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     border-radius: 50px;
     cursor: pointer;
     transition: var(--transition);
@@ -158,7 +160,7 @@ h1 {
 }
 
 .info-card h2 {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
     display: flex;
@@ -169,7 +171,7 @@ h1 {
 .info-card p, .info-card li {
     color: var(--text-color);
     font-size: 1rem;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 .stats-list {
@@ -211,6 +213,15 @@ h1 {
     background-color: var(--card-bg);
     border-radius: 15px;
     box-shadow: var(--shadow);
+}
+
+.comments-section h3 {
+    font-size: 1.35rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 footer {
@@ -301,10 +312,13 @@ input:checked + .slider:before {
 
 /* 모바일 반응형 */
  @media (max-width: 600px) {
-    h1 { font-size: 1.8rem; }
-    .ball { width: 45px; height: 45px; font-size: 1.2rem; }
+    h1 { font-size: 1.6rem; }
+    .ball { width: 50px; height: 50px; font-size: 1.3rem; }
     .container { padding: 1rem; }
     .theme-switch-wrapper { top: 10px; right: 10px; }
+    .generate-btn { padding: 0.85rem 2rem; font-size: 1rem; }
+    .info-card { padding: 1.5rem; }
+    .info-card h2 { font-size: 1.2rem; }
 }
 
 /* ===== Shared Components (All Pages) ===== */
@@ -322,7 +336,7 @@ header {
 }
 
 header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
 }
 
 /* Theme Toggle Button (other pages) */
@@ -360,7 +374,7 @@ header h1 {
     background: var(--card-bg);
     color: var(--text-color);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 500;
     transition: var(--transition);
     box-shadow: var(--shadow);
@@ -383,7 +397,7 @@ header h1 {
     padding: 12px 28px;
     border: none;
     border-radius: 50px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
@@ -444,7 +458,7 @@ header h1 {
 }
 
 .info-content h2 {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     color: var(--primary-color);
     margin: 1.5rem 0 0.8rem;
     padding-bottom: 0.5rem;
@@ -455,7 +469,8 @@ header h1 {
 
 .info-content p {
     color: var(--text-color);
-    line-height: 1.8;
+    font-size: 1rem;
+    line-height: 1.75;
     margin-bottom: 1rem;
 }
 
@@ -467,7 +482,7 @@ header h1 {
 .info-content li {
     padding: 10px 0 10px 1.2rem;
     border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-    line-height: 1.7;
+    line-height: 1.75;
     position: relative;
 }
 
@@ -514,7 +529,7 @@ header h1 {
 
 .footer-disclaimer {
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     margin-top: 0.5rem;
 }
 
@@ -552,7 +567,7 @@ header h1 {
 }
 
 .disqus-title {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
 }
@@ -572,7 +587,7 @@ header h1 {
 
 .form-label {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--text-color);
 }
 
@@ -834,12 +849,14 @@ header h1 {
 
 @media (max-width: 600px) {
     .nav-bar { gap: 6px; }
-    .nav-link { padding: 8px 12px; font-size: 0.85rem; }
+    .nav-link { padding: 8px 14px; font-size: 0.9rem; }
     .btn { padding: 10px 20px; font-size: 0.95rem; }
     .menu-name { font-size: 1.3rem; }
     .menu-emoji { font-size: 2.5rem; }
     .animal-emoji { font-size: 3rem; }
-    header h1 { font-size: 1.5rem; }
+    header h1 { font-size: 1.4rem; }
     .upload-area { min-height: 150px; }
     .contact-form { padding: 1.5rem; }
+    .info-content h2 { font-size: 1.2rem; }
+    .info-content { padding: 1.5rem; }
 }
