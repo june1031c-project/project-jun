@@ -529,18 +529,46 @@ h1 {
   transition: background var(--transition), border var(--transition);
 }
 
-.webcam-wrapper {
+.upload-area {
+  width: 100%;
+  border: 2px dashed var(--border);
   border-radius: 12px;
-  overflow: hidden;
-  line-height: 0;
-  box-shadow: var(--shadow-lg);
+  padding: 32px 16px;
+  cursor: pointer;
+  transition: border var(--transition), background var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.webcam-wrapper canvas {
-  width: 100% !important;
-  max-width: 280px;
-  height: auto !important;
-  border-radius: 12px;
+.upload-area:hover,
+.upload-area.drag-over {
+  border-color: var(--accent);
+  background: rgba(35,134,54,0.05);
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+}
+
+.upload-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.preview-img {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 10px;
+  object-fit: contain;
 }
 
 .animal-result {

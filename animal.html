@@ -27,11 +27,14 @@
     </nav>
 
     <div class="animal-result-box" id="resultBox">
-      <div class="placeholder" id="placeholder">카메라를 켜고 동물상을 확인하세요</div>
-
-      <div class="webcam-wrapper hidden" id="webcamWrapper">
-        <div id="webcam-container"></div>
+      <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-placeholder" id="uploadPlaceholder">
+          <span class="upload-icon">📷</span>
+          <span class="upload-text">사진을 선택하거나 여기에 드래그하세요</span>
+        </div>
+        <img class="preview-img hidden" id="previewImg" alt="업로드된 사진">
       </div>
+      <input type="file" id="fileInput" accept="image/*" class="hidden">
 
       <div class="animal-result hidden" id="animalResult">
         <span class="animal-emoji" id="animalEmoji"></span>
@@ -41,11 +44,11 @@
     </div>
 
     <div class="btn-group">
-      <button class="btn btn-primary" id="startBtn" onclick="init()">
-        <span class="btn-icon">📷</span> 카메라 시작
+      <button class="btn btn-primary" id="analyzeBtn" disabled onclick="analyze()">
+        <span class="btn-icon">🔍</span> 분석하기
       </button>
-      <button class="btn btn-secondary hidden" id="stopBtn" onclick="stop()">
-        <span class="btn-icon">⏹️</span> 카메라 종료
+      <button class="btn btn-secondary" onclick="reset()">
+        <span class="btn-icon">🔄</span> 다시하기
       </button>
     </div>
 
@@ -69,72 +72,71 @@
     })();
 
     // Teachable Machine
-    const URL = "https://teachablemachine.withgoogle.com/models/Q_3YX-pyr/";
-    let model, webcam, maxPredictions;
-    let running = false;
+    const MODEL_URL = "https://teachablemachine.withgoogle.com/models/Q_3YX-pyr/";
+    let model, maxPredictions;
 
     const animalMap = {
       '강아지': { emoji: '🐶', desc: '강아지상' },
       '고양이': { emoji: '🐱', desc: '고양이상' },
     };
 
-    async function init() {
-      const startBtn = document.getElementById('startBtn');
-      const stopBtn = document.getElementById('stopBtn');
-      startBtn.disabled = true;
-      startBtn.innerHTML = '<span class="btn-icon">⏳</span> 로딩 중...';
+    // Load model on page load
+    (async function loadModel() {
+      model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
+      maxPredictions = model.getTotalClasses();
+    })();
 
-      try {
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
-        model = await tmImage.load(modelURL, metadataURL);
+    // File input
+    const fileInput = document.getElementById('fileInput');
+    const previewImg = document.getElementById('previewImg');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const uploadArea = document.getElementById('uploadArea');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      showPreview(file);
+    });
+
+    // Drag & drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('drag-over');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('drag-over');
+    });
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) showPreview(file);
+    });
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewImg.classList.remove('hidden');
+        uploadPlaceholder.classList.add('hidden');
+        analyzeBtn.disabled = false;
+        document.getElementById('animalResult').classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function analyze() {
+      if (!model) {
+        analyzeBtn.innerHTML = '<span class="btn-icon">⏳</span> 모델 로딩 중...';
+        model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
         maxPredictions = model.getTotalClasses();
-
-        const flip = true;
-        webcam = new tmImage.Webcam(280, 280, flip);
-        await webcam.setup();
-        await webcam.play();
-        running = true;
-
-        document.getElementById('placeholder').classList.add('hidden');
-        const webcamWrapper = document.getElementById('webcamWrapper');
-        webcamWrapper.classList.remove('hidden');
-        document.getElementById('webcam-container').appendChild(webcam.canvas);
-        document.getElementById('animalResult').classList.remove('hidden');
-
-        // Build bar UI
-        const barsEl = document.getElementById('animalBars');
-        barsEl.innerHTML = '';
-        for (let i = 0; i < maxPredictions; i++) {
-          const row = document.createElement('div');
-          row.className = 'bar-row';
-          row.innerHTML = `
-            <span class="bar-label" id="barLabel${i}"></span>
-            <div class="bar-track"><div class="bar-fill" id="barFill${i}"></div></div>
-            <span class="bar-pct" id="barPct${i}"></span>
-          `;
-          barsEl.appendChild(row);
-        }
-
-        startBtn.classList.add('hidden');
-        stopBtn.classList.remove('hidden');
-        window.requestAnimationFrame(loop);
-      } catch (e) {
-        alert('카메라 접근에 실패했습니다. 카메라 권한을 확인해주세요.');
-        startBtn.disabled = false;
-        startBtn.innerHTML = '<span class="btn-icon">📷</span> 카메라 시작';
       }
-    }
 
-    async function loop() {
-      if (!running) return;
-      webcam.update();
-      await predict();
-      window.requestAnimationFrame(loop);
-    }
+      analyzeBtn.disabled = true;
+      analyzeBtn.innerHTML = '<span class="btn-icon">⏳</span> 분석 중...';
 
-    async function predict() {
-      const prediction = await model.predict(webcam.canvas);
+      const prediction = await model.predict(previewImg);
 
       let best = prediction[0];
       for (const p of prediction) {
@@ -145,32 +147,35 @@
       document.getElementById('animalEmoji').textContent = mapped.emoji;
       document.getElementById('animalLabel').textContent = mapped.desc;
 
+      const barsEl = document.getElementById('animalBars');
+      barsEl.innerHTML = '';
       for (let i = 0; i < maxPredictions; i++) {
         const p = prediction[i];
         const pct = Math.round(p.probability * 100);
         const m = animalMap[p.className] || { emoji: '🐾' };
-        document.getElementById(`barLabel${i}`).textContent = `${m.emoji} ${p.className}`;
-        document.getElementById(`barFill${i}`).style.width = pct + '%';
-        document.getElementById(`barPct${i}`).textContent = pct + '%';
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <span class="bar-label">${m.emoji} ${p.className}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <span class="bar-pct">${pct}%</span>
+        `;
+        barsEl.appendChild(row);
       }
+
+      document.getElementById('animalResult').classList.remove('hidden');
+      analyzeBtn.disabled = false;
+      analyzeBtn.innerHTML = '<span class="btn-icon">🔍</span> 분석하기';
     }
 
-    function stop() {
-      running = false;
-      if (webcam) {
-        webcam.stop();
-      }
-      document.getElementById('webcam-container').innerHTML = '';
-      document.getElementById('webcamWrapper').classList.add('hidden');
+    function reset() {
+      fileInput.value = '';
+      previewImg.src = '';
+      previewImg.classList.add('hidden');
+      uploadPlaceholder.classList.remove('hidden');
       document.getElementById('animalResult').classList.add('hidden');
-      document.getElementById('placeholder').classList.remove('hidden');
-
-      const startBtn = document.getElementById('startBtn');
-      const stopBtn = document.getElementById('stopBtn');
-      startBtn.classList.remove('hidden');
-      startBtn.disabled = false;
-      startBtn.innerHTML = '<span class="btn-icon">📷</span> 카메라 시작';
-      stopBtn.classList.add('hidden');
+      analyzeBtn.disabled = true;
+      analyzeBtn.innerHTML = '<span class="btn-icon">🔍</span> 분석하기';
     }
 
     // Disqus
